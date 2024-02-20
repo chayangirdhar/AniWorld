@@ -1,0 +1,116 @@
+{% extends "Core/base.html" %}
+{% load tags %}
+{% load static %}
+{% block title %}
+ Detail | {{data.title}}
+{% endblock %}
+
+{% block body %}
+
+<div class="card mb-3 ma-2 mt-5 offset-1 offset-sm-1 offset-md-1 border-dark text-bg-light w-75" >
+  <section> 
+    <h1><span class="badge text-bg-secondary  rounded-pill" style="display: flex;float:inline-end;margin-top: -0.75rem;margin-right: -0.75rem;">{{data.type}}</span></h1>
+    <img src="{{data.images}}" class="p-2 img-fluid rounded mx-auto d-block" alt="{{data.images}} image">
+  </section>
+  <div class="card-body">
+    <h3 class="card-title text-center">{{data.title}}</h3>
+
+    <!--Accordion start here-->
+    <div class="accordion bg-transparent" id="accordion">
+      <div class="accordion-item bg-transparent">
+        <h2 class="accordion-header bg-transparent">
+          <button class="accordion-button collapsed bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#detail" aria-expanded="false" aria-controls="detail">
+            Details....
+          </button>
+        </h2>
+        <div id="detail" class="accordion-collapse show">
+          <div class="accordion-body">
+            <p class="card-text">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item bg-transparent d-flex justify-content-between align-items-center">
+                  <strong>Episodes:</strong>
+                  <div class="badge d-none d-sm-block text-bg-secondary rounded-pill">{{data.episodes}}</div>
+                  <div class="d-block d-sm-none"> {{data.episodes}} </div>
+                </li>
+                <li class="list-group-item bg-transparent d-flex justify-content-between align-items-center">
+                  <strong>Source:</strong>
+                  <div class="badge d-none d-sm-block text-bg-secondary rounded-pill">{{data.source}}</div>
+                  <div class="d-block d-sm-none"> {{data.source}} </div>
+                </li>
+                <li class="list-group-item bg-transparent d-flex justify-content-between align-items-center">
+                  <strong>Duration: </strong>
+                  <div class=" badge d-none d-sm-block text-bg-secondary rounded-pill">{{data.duration}}</div>
+                  <div class="d-block d-sm-none"> {{data.duration}} </div>
+                </li>
+                <li class="list-group-item bg-transparent d-flex justify-content-between align-items-center">
+                  <strong>Status:</strong>
+                  <div class="badge d-none d-sm-block text-bg-secondary rounded-pill">{{data.status}}</div>
+                  <div class="d-block offset-1 d-sm-none"> {{data.status}} </div>
+                </li>
+                <li class="list-group-item bg-transparent d-flex justify-content-between align-items-center">
+                  <strong>Aired:</strong>
+                  <div class="badge d-none d-sm-block text-bg-secondary rounded-pill">{{data.aired}}</div>
+                  <div class="d-block offset-1 d-sm-none"> {{data.aired}} </div>
+                </li>
+                <li class="list-group-item bg-transparent d-flex justify-content-between align-items-center">
+                  <strong>Rating: </strong>
+                  <div class="badge d-none d-sm-block text-bg-secondary rounded-pill">{{data.rating}}</div>
+                  <div class="d-block offset-1 d-sm-none"> {{data.rating}} </div>
+                </li>
+              </ul>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item bg-transparent">
+        <h2 class="accordion-header bg-transparent">
+          <button class="accordion-button collapsed bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#synopsis" aria-expanded="false" aria-controls="synopsis">
+            Synopsis.. <hr>
+          </button>
+        </h2>
+        <div id="synopsis" class="accordion-collapse show">
+          <div class="accordion-body">
+            <p class="card-text">{{data.synopsis}}</p>
+          </div>
+        </div>
+      </div>
+      {% if data.trailer %}
+      <div class="accordion-item bg-transparent">
+        <h2 class="accordion-header bg-transparent">
+          <button class="accordion-button collapsed bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#trailer" aria-expanded="false" aria-controls="trailer">
+            Trailer.. <hr>
+          </button>
+        </h2>
+        <div id="trailer" class="accordion-collapse collapse bg-transparent" data-bs-parent="#accordion">
+          <div class="accordion-body">
+            <div class="ratio ratio-16x9">
+            <iframe width="500" height="350" src="https://www.youtube.com/embed/{{embed}}?controls=1&autoplay=0">
+            </iframe>
+          </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+      <div class="accordion-item bg-transparent">
+        <h2 class="accordion-header bg-transparent">
+          <button class="accordion-button collapsed bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+            Titles... <hr>
+          </button>
+        </h2>
+        <div id="flush-collapseThree" class="accordion-collapse collapse bg-transparent" data-bs-parent="#accordion">
+          <div class="accordion-body bg-transparent">
+            <ul class="list-group list-group-flush">
+            {% for title in data.titles|Dsplit:',' %}
+              <li class="list-group-item bg-transparent">{{title}}</li>
+            {% endfor %}
+          </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!--Accordion close here -->
+  </div>
+</div>
+
+{% endblock %}

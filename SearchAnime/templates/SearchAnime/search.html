@@ -1,0 +1,151 @@
+{% extends "Core/base.html" %}
+{% load tags %}
+{% load static %}
+{% block title %}{{title}}{% endblock %}
+
+{% block body %}
+<div class= "row justify-content-start overflow-hidden">
+    <div class="input-group pt-5 pb-5 pl-5 pr-4 offset-sm-1  col-md-1 offset-md-1 overflow-hidden">
+    <form class = "d-flex col-9" method="GET">
+        <input type="search" class="form-control rounded col-7" placeholder="Search" aria-label="Search" name= "q">
+        <button type="submit" class="btn btn-outline-secondary " style= "margin-left:1pc;" >search</button>
+    </form>
+    </div>
+</div>
+{% if datas %}
+{% for data in datas %}
+<div class="card shadow mb-3 offset-1  offset-sm-1 offset-md-1 border-dark text-bg-light" style="max-width: 75%;">
+    <div class="row g-0">
+      <a href={% url "SearchAnime:detail" pk=data.id %} class="stretched-link"></a>
+      <div class="col-md-3">
+        <img src="{{data.images}}" class="img-fluid d-block rounded-start" alt="{{data.title}} image">
+      </div>
+      <div class="col-md-9">
+        <section>
+          <h3><span class="badge text-bg-secondary rounded-pill" style="display: flex;float:inline-end;margin-top: -1rem;margin-right: -1.75rem;">{{data.type}}</span></h3>
+        <div class="card-body">
+          <h5 class="card-title col-md-9 overflow-hidden">{{data.title}}</h5>
+          <p class="card-text">{{data.synopsis|truncatewords:75}}</p>
+          <h5 class="card-title mb-0">
+          <span class="badge rounded-pill {% if data.status == 'Currently Airing' %}text-bg-success{% elif data.status == 'Finished Airing' %}text-bg-danger{% else %}text-bg-warning{% endif %}"><small class="text-body-light">{{data.status}}</small></span><br><br>
+          <span class="badge rounded-pill text-bg-info text-body-info"><small class="text-body-light">{{data.rating}}</small></span><br>
+          </h5>
+        </div>
+      </section>
+        <div class="card-footer bg-transparent">
+          <h4 class='mb-0'>
+          {% if data.genre %}
+          {% for genre in data.genre|Dsplit:"," %}
+          <span class="badge rounded-pill text-bg-secondary">{{genre}}</span>
+          {% endfor %}
+          {% endif %}
+        </h4>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+{% endif %}
+
+<!-- pagination start here  -->
+
+{% if datas.paginator.num_pages > 1 %}
+<div class="mb-3 offset-md-1 secondary " style="max-width: 75%;">
+<nav aria-label="Search results pages">
+  <ul class="pagination justify-content-center" style="--bs-pagination-active-bg:#5b6fc166;--bs-pagination-active-border-color: #ffffffbd; --bs-pagination-color: #5b78e8;">
+    {% if datas.has_previous %}
+    <li class="page-item ">
+      <a class="page-link" href='?q={{q}}&page={{datas.previous_page_number}}'>Previous</a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+      <a class="page-link">Previous</a>
+    </li>
+    {% endif %}
+    {% if datas.paginator.num_pages < 5 %}
+    {% for i in datas.paginator.page_range %}
+    <li class="page-item" aria-current="page">
+      <a class="page-link" href='?q={{q}}&page={{i}}'>{{i}}</a>
+    </li>
+    {% endfor %}
+    {% else %}
+    
+    {% if datas.number < 4  %}
+    {% for i in '123' %}
+    <li class="page-item" aria-current="page">
+      <a class="page-link {% if forloop.counter == datas.number %}active{% endif %}" href='?q={{q}}&page={{forloop.counter}}'>{{forloop.counter}}</a>
+    </li>
+    {% endfor %}
+    <li class="page-item disabled" aria-current="page">
+      <a class="page-link">...</a>
+      </li>
+      <li class="page-item" aria-current="page">
+        <a class="page-link" href='?q={{q}}&page={{datas.paginator.num_pages|add:"-2"}}'>{{datas.paginator.num_pages|add:"-2"}}</a>
+      </li>
+      <li class="page-item" aria-current="page">
+        <a class="page-link" href='?q={{q}}&page={{datas.paginator.num_pages|add:"-1"}}'>{{datas.paginator.num_pages|add:"-1"}}</a>
+      </li>
+      <li class="page-item" aria-current="page">
+        <a class="page-link" href='?q={{q}}&page={{datas.paginator.num_pages}}'>{{datas.paginator.num_pages}}</a>
+      </li>
+    {% elif datas.number < datas.paginator.num_pages|add:"-3" %}
+    <li class="page-item " aria-current="page">
+      <a class="page-link" href='?q={{q}}&page=1' >1</a>
+    </li>
+    <li class="page-item disabled" aria-current="page">
+      <a class="page-link">...</a>
+    </li>
+    <li class="page-item " aria-current="page">
+      <a class="page-link" href='?q={{q}}&page={{datas.number|add:"-1"}}' >{{datas.number|add:"-1"}}</a>
+    </li>
+    <li class="page-item " aria-current="page">
+      <a class="page-link active" >{{datas.number}}</a>
+    </li>
+    <li class="page-item " aria-current="page">
+      <a class="page-link" href='?q={{q}}&page={{datas.number|add:"1"}}'>{{datas.number|add:"1"}}</a>
+    </li>
+    <li class="page-item disabled" aria-current="page">
+      <a class="page-link">...</a>
+    </li>
+    <li class="page-item" aria-current="page">
+      <a class="page-link" href='?q={{q}}&page={{datas.paginator.num_pages|add:"-2"}}'>{{datas.paginator.num_pages|add:"-2"}}</a>
+    </li>
+    <li class="page-item" aria-current="page">
+      <a class="page-link" href='?q={{q}}&page={{datas.paginator.num_pages|add:"-1"}}'>{{datas.paginator.num_pages|add:"-1"}}</a>
+    </li>
+    <li class="page-item" aria-current="page">
+      <a class="page-link" href='?q={{q}}&page={{datas.paginator.num_pages}}'>{{datas.paginator.num_pages}}</a>
+    </li>
+    {% else %}
+    <li class="page-item " aria-current="page">
+      <a class="page-link" href='?q={{q}}&page=1' >1</a>
+    </li>
+    <li class="page-item disabled" aria-current="page">
+      <a class="page-link">...</a>
+    </li>
+    <li class="page-item" aria-current="page">
+      <a class="page-link {% if datas.paginator.num_pages|add:"-2" == datas.number %}active{% endif %}" href='?q={{q}}&page={{datas.paginator.num_pages|add:"-2"}}'>{{datas.paginator.num_pages|add:"-2"}}</a>
+    </li>
+    <li class="page-item" aria-current="page">
+      <a class="page-link {% if datas.paginator.num_pages|add:"-1" == datas.number %}active{% endif %}" href='?q={{q}}&page={{datas.paginator.num_pages|add:"-1"}}'>{{datas.paginator.num_pages|add:"-1"}}</a>
+    </li>
+    <li class="page-item" aria-current="page">
+      <a class="page-link {% if datas.paginator.num_pages == datas.number %}active{% endif %}" href='?q={{q}}&page={{datas.paginator.num_pages}}'>{{datas.paginator.num_pages}}</a>
+    </li>
+    {% endif %}
+    {% endif %}
+    {% if datas.has_next %}
+    <li class="page-item ">
+      <a class="page-link" href='?q={{q}}&page={{datas.next_page_number}}'>Next</a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+      <a class="page-link">Next</a>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
+</div>
+{% endif %}
+{% endblock %}
