@@ -1,6 +1,6 @@
 # AniWorld: Prepare to Fall Down the Rabbit Hole
 
-![Django Logo](Images/Djangologo.png = 100x)
+![Django Logo](Images/Djangologo.png=100x)
 ![Bootstrap Logo](Images/Bootstrap.webp)
 ## Screenshots
 
