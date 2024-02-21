@@ -1,6 +1,6 @@
 # AniWorld: Prepare to Fall Down the Rabbit Hole
 
-![Django Logo](Images/Djangologo.png)
+![Django Logo](Images/Djangologo.png = 100x)
 ![Bootstrap Logo](Images/Bootstrap.webp)
 ## Screenshots
 
@@ -50,7 +50,7 @@ pip install -r requirements.txt
 Most configurations are in `setting.py`.
 I set many `setting` configuration with my environment variables (such as: `SECRET_KEY`, `database`) and they did NOT been submitted to the `GitHub`. You can change these in the code with your own configuration or just add them into your environment variables.
 
-If you want to use `sqlite3` as databse uncomment it in `Animeapp/setting.py` or Modify it with database settings, as following:
+If you want to use `sqlite3` as database uncomment it in `Animeapp/setting.py` or Modify it with database settings, as following:
 
 ```python
 DATABASES = {
